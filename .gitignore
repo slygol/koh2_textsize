@@ -1,0 +1,8 @@
+build/
+obj/
+vendor/
+package/BepInEx/core/
+package/BepInEx/cache/
+package/BepInEx/patchers/
+package/BepInEx/config/
+package/BepInEx/LogOutput.log

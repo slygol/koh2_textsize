@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>KoH2.LargerText.Patcher</AssemblyName>
+    <RootNamespace>KoH2.LargerText.Preloader</RootNamespace>
+    <Version>2.3.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>build\patcher\</OutputPath>
+    <NuGetAudit>false</NuGetAudit>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="PreloaderPatcher.cs" />
+    <Reference Include="Mono.Cecil">
+      <HintPath>vendor\BepInEx\BepInEx\core\Mono.Cecil.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CopyPatcherToPackage" AfterTargets="Build">
+    <MakeDir Directories="package\BepInEx\patchers" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="package\BepInEx\patchers" />
+  </Target>
+</Project>
