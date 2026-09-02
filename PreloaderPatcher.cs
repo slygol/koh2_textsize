@@ -115,6 +115,7 @@ namespace KoH2.LargerText.Preloader
 
             RestoreCompactResourceBarText(module);
             RestoreKingdomFoodText(module);
+            RestoreAdvantagesVictoryLabel(module);
         }
 
         private static MethodReference GetComponentInParent(
@@ -227,6 +228,58 @@ namespace KoH2.LargerText.Preloader
             MethodReference setFontSizeMax = PropertySetter(module, tmpTextType, "fontSizeMax", module.TypeSystem.Single);
 
             ILProcessor il = start.Body.GetILProcessor();
+
+            EmitBefore(il, anchor, OpCodes.Ldarg_0);
+            EmitBefore(il, anchor, OpCodes.Ldfld, text);
+            EmitBefore(il, anchor, OpCodes.Brfalse, anchor);
+
+            EmitScaleFieldProperty(il, anchor, text, getFontSize, setFontSize, InverseTextScale);
+
+            EmitBefore(il, anchor, OpCodes.Ldarg_0);
+            EmitBefore(il, anchor, OpCodes.Ldfld, text);
+            EmitBefore(il, anchor, OpCodes.Callvirt, getAutoSizing);
+            EmitBefore(il, anchor, OpCodes.Brfalse, anchor);
+            EmitScaleFieldProperty(il, anchor, text, getFontSizeMin, setFontSizeMin, InverseTextScale);
+            EmitScaleFieldProperty(il, anchor, text, getFontSizeMax, setFontSizeMax, InverseTextScale);
+        }
+
+        /// <summary>
+        /// The Claim Victory button has a fixed-height label container. Restore
+        /// only that label after UIKingdomAdvantagesWindow resolves its fields.
+        /// </summary>
+        private static void RestoreAdvantagesVictoryLabel(ModuleDefinition module)
+        {
+            TypeDefinition windowType = module.Types.FirstOrDefault(
+                type => type.Name == "UIKingdomAdvantagesWindow");
+            if (windowType == null)
+                throw new InvalidOperationException("UIKingdomAdvantagesWindow type was not found.");
+
+            MethodDefinition init = windowType.Methods.FirstOrDefault(
+                method => method.Name == "Init" && !method.IsStatic && method.Parameters.Count == 0);
+            FieldDefinition initialized = windowType.Fields.FirstOrDefault(
+                field => field.Name == "m_Initiazlied");
+            FieldDefinition text = windowType.Fields.FirstOrDefault(
+                field => field.Name == "m_VictoryLabel");
+
+            if (init == null || !init.HasBody || initialized == null || text == null)
+                throw new InvalidOperationException("UIKingdomAdvantagesWindow.Init fields were not found.");
+
+            Instruction initializedStore = init.Body.Instructions.FirstOrDefault(instruction =>
+                instruction.OpCode == OpCodes.Stfld && instruction.Operand == initialized);
+            Instruction anchor = initializedStore?.Next;
+            if (anchor == null)
+                throw new InvalidOperationException("UIKingdomAdvantagesWindow.Init injection point was not found.");
+
+            TypeReference tmpTextType = module.ImportReference(text.FieldType);
+            MethodReference getFontSize = PropertyGetter(module, tmpTextType, "fontSize", module.TypeSystem.Single);
+            MethodReference setFontSize = PropertySetter(module, tmpTextType, "fontSize", module.TypeSystem.Single);
+            MethodReference getAutoSizing = PropertyGetter(module, tmpTextType, "enableAutoSizing", module.TypeSystem.Boolean);
+            MethodReference getFontSizeMin = PropertyGetter(module, tmpTextType, "fontSizeMin", module.TypeSystem.Single);
+            MethodReference setFontSizeMin = PropertySetter(module, tmpTextType, "fontSizeMin", module.TypeSystem.Single);
+            MethodReference getFontSizeMax = PropertyGetter(module, tmpTextType, "fontSizeMax", module.TypeSystem.Single);
+            MethodReference setFontSizeMax = PropertySetter(module, tmpTextType, "fontSizeMax", module.TypeSystem.Single);
+
+            ILProcessor il = init.Body.GetILProcessor();
 
             EmitBefore(il, anchor, OpCodes.Ldarg_0);
             EmitBefore(il, anchor, OpCodes.Ldfld, text);
