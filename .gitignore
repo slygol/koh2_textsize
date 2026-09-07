@@ -1,7 +1,8 @@
 build/
 obj/
 vendor/
-package/BepInEx/core/
+!package/BepInEx/core/
+!package/BepInEx/core/**
 package/BepInEx/cache/
 !package/BepInEx/
 package/BepInEx/patchers/

@@ -8,7 +8,7 @@
 
 ## Как это работает
 
-Проект использует BepInEx 5. До загрузки игрового кода patcher изменяет находящуюся в памяти копию `Assembly-CSharp.dll` и добавляет масштабирование в `UIText.OnEnable`.
+Проект использует BepInEx 5.4.23.4. До загрузки игрового кода patcher изменяет находящуюся в памяти копию `Assembly-CSharp.dll` и добавляет масштабирование в `UIText.OnEnable`.
 
 Когда Unity активирует надпись интерфейса, patcher:
 
@@ -126,7 +126,7 @@ Knights of Honor II Sovereign/
         └── KoH2.LargerText.Patcher.dll
 ```
 
-If BepInEx 5 is already installed, place only `KoH2.LargerText.Patcher.dll` in `BepInEx/patchers`. Do not install the old experimental `KoH2.LargerText.Plugin.dll` found in the source tree.
+The package includes the required BepInEx 5.4.23.4 core files. If BepInEx 5 is already installed, place only `KoH2.LargerText.Patcher.dll` in `BepInEx/patchers`. Do not install the old experimental `KoH2.LargerText.Plugin.dll` found in the source tree.
 
 ## Verifying the installation
 
