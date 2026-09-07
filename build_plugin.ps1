@@ -2,13 +2,17 @@ $ErrorActionPreference = 'Stop'
 
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $patcherProjectFile = Join-Path $projectRoot 'KoH2.LargerText.Patcher.csproj'
-$bepInExDll = Join-Path $projectRoot 'vendor\BepInEx\BepInEx\core\BepInEx.dll'
+$monoCecilDll = Join-Path $projectRoot 'tools\.store\ilspycmd\11.0.0.9375\ilspycmd\11.0.0.9375\tools\net10.0\any\Mono.Cecil.dll'
 $readme = Join-Path $projectRoot 'README_RU.txt'
 $packageReadme = Join-Path $projectRoot 'package\INSTALL_RU.txt'
 
-if (-not (Test-Path -LiteralPath $bepInExDll)) {
-    throw "Local BepInEx was not found: $bepInExDll"
+if (-not (Test-Path -LiteralPath $monoCecilDll)) {
+    throw "Mono.Cecil was not found: $monoCecilDll"
 }
+
+$referenceDirectory = Join-Path $projectRoot 'vendor\BepInEx\BepInEx\core'
+New-Item -ItemType Directory -Path $referenceDirectory -Force | Out-Null
+Copy-Item -LiteralPath $monoCecilDll -Destination (Join-Path $referenceDirectory 'Mono.Cecil.dll') -Force
 
 dotnet build $patcherProjectFile -c Release
 if ($LASTEXITCODE -ne 0) {

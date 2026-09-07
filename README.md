@@ -23,11 +23,10 @@
 
 ## Установка
 
-1. Скачайте архив из раздела **Releases**.
-2. Распакуйте содержимое архива в корневую папку игры, где находится `Sovereign.exe`.
+1. Скачайте проект целиком с GitHub или откройте в нём папку `package`.
+2. Распакуйте содержимое папки `package` в корневую папку игры, где находится `Sovereign.exe`.
 3. Подтвердите объединение папок, если Windows его запросит.
-4. Отключите обычный мод **Larger Text (125%)** в меню `Settings → Mods`, чтобы одни и те же надписи не масштабировались дважды.
-5. Запустите игру обычным способом.
+4. Запустите игру обычным способом.
 
 После установки основные файлы должны находиться здесь:
 
@@ -109,11 +108,10 @@ Some tightly constrained UI elements are excluded: labels inside `MessageWnd` an
 
 ## Installation
 
-1. Download the archive from **Releases**.
-2. Extract its contents into the game directory containing `Sovereign.exe`.
+1. Download the complete project from GitHub or open its `package` folder.
+2. Extract the contents of the `package` folder into the game directory containing `Sovereign.exe`.
 3. Allow Windows to merge the folders if prompted.
-4. Disable the regular **Larger Text (125%)** mod under `Settings → Mods` to prevent some text from being scaled twice.
-5. Start the game normally.
+4. Start the game normally.
 
 The main files should be arranged as follows:
 
@@ -161,7 +159,7 @@ Open PowerShell in the project directory and run:
 
 The installation package will be created under `package`. The scale factor is the `TextScale` constant in `PreloaderPatcher.cs`; rebuild the project after changing it.
 
-The repository also retains `LargerTextPlugin.cs`, an earlier experimental runtime scanner. Current releases build and use only `KoH2.LargerText.Patcher.csproj`.
+The repository also retains `LargerTextPlugin.cs`, an earlier experimental runtime scanner. The project build uses only `KoH2.LargerText.Patcher.csproj`.
 
 ## Limitations and compatibility
 

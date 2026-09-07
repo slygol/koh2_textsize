@@ -3,6 +3,9 @@ obj/
 vendor/
 package/BepInEx/core/
 package/BepInEx/cache/
+!package/BepInEx/
 package/BepInEx/patchers/
+!package/BepInEx/patchers/
+!package/BepInEx/patchers/KoH2.LargerText.Patcher.dll
 package/BepInEx/config/
 package/BepInEx/LogOutput.log
